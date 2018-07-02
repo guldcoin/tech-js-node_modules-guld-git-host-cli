@@ -1,9 +1,9 @@
 {
-  "name": "guld-git-path-cli",
-  "version": "1.1.0",
-  "description": "Guld tool for getting the git directory of a path, or converting local paths into git-friendly repo names.",
+  "name": "guld-git-host-cli",
+  "version": "1.1.1",
+  "description": "Configuration manager for git hosts.",
   "bin": {
-    "guld-git-path": "./cli.js"
+    "guld-git-host": "./cli.js"
   },
   "scripts": {
     "lint": "eslint --env browser *.js*",
