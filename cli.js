@@ -5,26 +5,15 @@ const inquirer = require('inquirer')
 const { show, merge, parsePass } = require('guld-pass')
 const { getName } = require('guld-user')
 const { setupConfig } = require('guld-git-config')
+const { pathEscape } = require('guld-git-path')
 const VERSION = require('./package.json').version
-const HOSTS = {
-  'bitbucket': {
-    'url': 'bitbucket.org',
-    'oauth-required': false
-  },
-  'github': {
-    'url': 'github.com',
-    'oauth-required': false
-  },
-  'gitlab': {
-    'url': 'gitlab.com',
-    'oauth-required': true
-  }
-}
+const { HOSTS, createRepo, deleteRepo } = require('guld-git-host')
 const PROMPTS = [
   'What is your github username?',
   'What is your github password?',
   'What is your github personal oauth token? (optional)'
 ]
+var processing = false
 
 /* eslint-disable no-console */
 program
@@ -38,6 +27,23 @@ program
 program
   .command('init [hosts...]')
   .description('Initialize your git hosting account(s).')
+program
+  .command('repo-create [name]')
+  .description('Create a repository. Defaults to the current working dir.')
+  .option('-p --privacy <privacy>', 'The privacy (public, private) of the repo.', 'public')
+  .action(async (rname, options) => {
+    processing = true
+    rname = rname || await pathEscape()
+    createRepo(rname, global.GULDNAME, options.privacy).then(console.log('Ok.'))
+  })
+program
+  .command('repo-delete [name]')
+  .description('Delete a repository. Defaults to the current working dir.')
+  .action(async (rname, options) => {
+    processing = true
+    rname = rname || await pathEscape()
+    deleteRepo(rname, global.GULDNAME).then(console.log('Ok.'))
+  })
 
 program.parse(process.argv)
 
@@ -65,8 +71,8 @@ async function inquireHostName (hostname, user, hostuser, hostpass = '', hosttok
   ])
   answers.username = answers.username || user
   var conf = {}
-  conf['host'] = {}
-  conf['host'][hostname] = answers.username
+  conf['aliases'] = {}
+  conf['aliases'][hostname] = answers.username
   await setupConfig(conf)
   return inquireHostPass(hostname,
     user,
@@ -96,7 +102,7 @@ async function inquireHostPass (hostname, user, hostuser, hostpass = '', hosttok
 
 async function inquireHostToken (hostname, user, hostuser, hostpass, hosttoken = '') {
   var prompt = PROMPTS[2].replace('github', hostname)
-  if (HOSTS[hostname]['oauth-required']) prompt = `${prompt}`.replace('optional', 'required')
+  if (HOSTS[hostname].meta['oauth-required']) prompt = `${prompt}`.replace('optional', 'required')
   var answers = await inquirer.prompt([
     {
       name: 'oauthtoken',
@@ -109,7 +115,7 @@ async function inquireHostToken (hostname, user, hostuser, hostpass, hosttoken =
   var conf = {
     'password': hostpass,
     'login': hostuser,
-    'url': HOSTS[hostname].url
+    'url': HOSTS[hostname].meta.url
   }
   if (answers.oauthtoken) conf['oauth'] = answers.oauthtoken
   console.log(await merge(`${user}/git/${hostname}`, conf))
@@ -131,13 +137,21 @@ async function initHosts (hosts) {
   return loadCreds(hosts)
 }
 
-switch (cmd) {
-  case 'init':
-  default:
-    var hosts
-    if (program.rawArgs.length > 3) hosts = program.rawArgs.slice(3)
-    else hosts = Object.keys(HOSTS)
-    Promise.each(hosts, initHosts)
-    break
+if (!processing) {
+  switch (cmd) {
+    case 'repo-create':
+      break
+    case 'repo-delete':
+      break
+    case 'init':
+      var hosts
+      if (program.rawArgs.length > 3) hosts = program.rawArgs.slice(3)
+      else hosts = Object.keys(HOSTS)
+      Promise.each(hosts, initHosts)
+      break
+    default:
+      program.help()
+      break
+  }
 }
 /* eslint-enable no-console */
