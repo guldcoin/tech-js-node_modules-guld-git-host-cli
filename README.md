@@ -1,11 +1,11 @@
-# guld-git-path-cli
+# guld-git-host-cli
 
-Guld tool for getting the git directory of a path, or converting local paths into git-friendly repo names.
+Configuration manager for git hosts.
 
 ### Install
 
 ```
-npm i -g guld-git-path-cli
+npm i -g guld-git-host-cli
 ```
 
 ### Usage
@@ -13,17 +13,20 @@ npm i -g guld-git-path-cli
 ##### CLI
 
 ```
-  Usage: guld-git-path [options] [command]
+  Usage: guld-git-host [options] [command]
 
-  Blocktree path resolution tools.
+  Configuration manager for git hosts.
 
   Options:
 
-    -V, --version  output the version number
-    -h, --help     output usage information
+    -V, --version                 output the version number
+    -u --user <name>              The user name to run as.
+    -h, --help                    output usage information
 
   Commands:
 
-    escape [path]  Convert a local path into an escaped blocktree path, like used in git repo names.
-    dir [path]     Guld tool for getting the git directory of a path.
+    init [hosts...]               Initialize your git hosting account(s).
+    repo-create [options] [name]  Create a repository. Defaults to the current working dir.
+    repo-delete [name]            Delete a repository. Defaults to the current working dir.
+    add-ssh [key]                 Add an ssh key to your git hosting account(s). Default: ~/.ssh/id_rsa.pub
 ```
