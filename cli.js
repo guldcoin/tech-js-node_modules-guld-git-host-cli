@@ -7,7 +7,7 @@ const { getName } = require('guld-user')
 const { setupConfig } = require('guld-git-config')
 const { pathEscape } = require('guld-git-path')
 const VERSION = require('./package.json').version
-const { HOSTS, createRepo, deleteRepo } = require('guld-git-host')
+const { HOSTS, createRepo, deleteRepo, addSSHKey } = require('guld-git-host')
 const PROMPTS = [
   'What is your github username?',
   'What is your github password?',
@@ -43,6 +43,13 @@ program
     processing = true
     rname = rname || await pathEscape()
     deleteRepo(rname, global.GULDNAME).then(console.log('Ok.'))
+  })
+program
+  .command('add-ssh [key]')
+  .description('Add an ssh key to your git hosting account(s). Default: ~/.ssh/id_rsa.pub')
+  .action(async (key, options) => {
+    processing = true
+    addSSHKey(key).then(console.log('Ok.'))
   })
 
 program.parse(process.argv)
