@@ -20,11 +20,11 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "commander": "^2.16.0",
-    "guld-git-config": "^1.2.3",
-    "guld-git-host": "^0.4.5",
-    "guld-git-path": "^1.0.4",
-    "guld-pass": "^0.5.3",
-    "guld-user": "^0.5.3",
+    "guld-git-config": "^1.2.4",
+    "guld-git-host": "^0.4.6",
+    "guld-git-path": "^1.0.5",
+    "guld-pass": "^0.5.4",
+    "guld-user": "^0.5.4",
     "inquirer": "^6.0.0"
   },
   "devDependencies": {
