@@ -20,11 +20,11 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "commander": "^2.16.0",
-    "guld-git-config": "^1.2.2",
-    "guld-git-host": "^0.4.4",
+    "guld-git-config": "^1.2.3",
+    "guld-git-host": "^0.4.5",
     "guld-git-path": "^1.0.4",
-    "guld-pass": "^0.5.2",
-    "guld-user": "^0.5.2",
+    "guld-pass": "^0.5.3",
+    "guld-user": "^0.5.3",
     "inquirer": "^6.0.0"
   },
   "devDependencies": {
@@ -45,5 +45,8 @@
   "readme": "README.md",
   "engines": {
     "node": ">=7"
-  }
+  },
+  "homepage": "https://github.com/isysd/tech-js-node_modules-guld-git-host-cli#readme",
+  "preferGlobal": true,
+  "repository": "git@github.com:isysd/tech-js-node_modules-guld-git-host-cli.git"
 }
