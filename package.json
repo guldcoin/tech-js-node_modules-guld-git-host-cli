@@ -1,6 +1,6 @@
 {
   "name": "guld-git-host-cli",
-  "version": "1.3.12",
+  "version": "1.3.13",
   "description": "Configuration manager for git hosts.",
   "bin": {
     "guld-git-host": "./cli.js"
