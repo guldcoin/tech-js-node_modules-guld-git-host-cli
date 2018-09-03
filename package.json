@@ -18,24 +18,24 @@
   "author": "isysd",
   "license": "MIT",
   "dependencies": {
-    "bluebird": "^3.5.1",
-    "commander": "^2.16.0",
-    "guld-git-config": "^1.2.11",
-    "guld-git-host": "^0.4.13",
-    "guld-git-path": "^1.0.11",
-    "guld-pass": "^0.5.9",
-    "guld-user": "^0.5.9",
-    "inquirer": "^6.0.0"
+    "bluebird": "^3.5.2",
+    "commander": "^2.17.1",
+    "guld-git-config": "^1.2.13",
+    "guld-git-host": "^0.4.14",
+    "guld-git-path": "^1.1.3",
+    "guld-pass": "^0.5.11",
+    "guld-user": "^0.5.11",
+    "inquirer": "^6.2.0"
   },
   "devDependencies": {
-    "eslint": "^5.1.0",
-    "eslint-config-standard": "^11.0.0",
+    "eslint": "^5.5.0",
+    "eslint-config-standard": "^12.0.0",
     "eslint-plugin-es5": "^1.3.1",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-json": "^1.2.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.7.0",
-    "eslint-plugin-standard": "^3.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-json": "^1.2.1",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.0",
+    "eslint-plugin-standard": "^4.0.0",
     "mocha": "^5.2.0",
     "pre-commit": "^1.2.2"
   },
@@ -46,7 +46,7 @@
   "engines": {
     "node": ">=7"
   },
-  "homepage": "https://github.com/isysd/tech-js-node_modules-guld-git-host-cli#readme",
+  "homepage": "https://bitbucket.org/isysd/tech-js-node_modules-guld-git-host-cli#readme",
   "preferGlobal": true,
-  "repository": "git@github.com:isysd/tech-js-node_modules-guld-git-host-cli.git"
+  "repository": "git@bitbucket.org:isysd/tech-js-node_modules-guld-git-host-cli.git"
 }
