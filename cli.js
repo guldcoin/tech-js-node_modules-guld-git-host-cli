@@ -6,8 +6,9 @@ const { show, merge, parsePass } = require('guld-pass')
 const { getName } = require('guld-user')
 const { setupConfig } = require('guld-git-config')
 const { pathEscape } = require('guld-git-path')
-const VERSION = require('./package.json').version
 const { HOSTS, createRepo, deleteRepo, addSSHKey } = require('guld-git-host')
+const thispkg = require(`${__dirname}/package.json`)
+const runCLI = require('guld-cli-run')
 const PROMPTS = [
   'What is your github username?',
   'What is your github password?',
@@ -17,9 +18,9 @@ var processing = false
 
 /* eslint-disable no-console */
 program
-  .name('guld-git-host')
-  .description('Configuration manager for git hosts.')
-  .version(VERSION)
+  .name(thispkg.name.replace('-cli', ''))
+  .version(thispkg.version)
+  .description(thispkg.description)
   .option('-u --user <name>', 'The user name to run as.', (n) => {
     if (n) process.env.GULDNAME = global.GULDNAME = n
     return true
@@ -51,10 +52,6 @@ program
     processing = true
     addSSHKey(key).then(console.log('Ok.'))
   })
-
-program.parse(process.argv)
-
-if (program.commands.map(c => c._name).indexOf(program.args[0]) !== -1) var cmd = program.args.shift()
 
 async function inquireHost (hostname, user, hostuser, hostpass = '', hosttoken = '') {
   var answers = await inquirer.prompt([
@@ -144,21 +141,29 @@ async function initHosts (hosts) {
   return loadCreds(hosts)
 }
 
-if (!processing) {
-  switch (cmd) {
-    case 'repo-create':
-      break
-    case 'repo-delete':
-      break
-    case 'init':
-      var hosts
-      if (program.rawArgs.length > 3) hosts = program.rawArgs.slice(3)
-      else hosts = Object.keys(HOSTS)
-      Promise.each(hosts, initHosts)
-      break
-    default:
-      program.help()
-      break
+function runner () {
+  program.parse(process.argv)
+
+  if (program.commands.map(c => c._name).indexOf(program.args[0]) !== -1) var cmd = program.args.shift()
+
+  if (!processing) {
+    switch (cmd) {
+      case 'repo-create':
+        break
+      case 'repo-delete':
+        break
+      case 'init':
+        var hosts
+        if (program.rawArgs.length > 3) hosts = program.rawArgs.slice(3)
+        else hosts = Object.keys(HOSTS)
+        Promise.each(hosts, initHosts)
+        break
+      default:
+        program.help()
+        break
+    }
   }
 }
 /* eslint-enable no-console */
+runCLI.bind(program)(program.help, runner)
+module.exports = program
